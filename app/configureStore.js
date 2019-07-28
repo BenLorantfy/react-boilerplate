@@ -32,6 +32,7 @@ export default function configureStore(initialState = {}, history) {
   }
 
   const sagaMiddleware = createSagaMiddleware(reduxSagaMonitorOptions);
+  const runSaga = sagaMiddleware.run;
 
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
@@ -47,7 +48,10 @@ export default function configureStore(initialState = {}, history) {
   );
 
   // Allow's react-redux-injectors to work
-  setupStoreForInjectors(store, { sagaMiddleware, createReducer });
+  setupStoreForInjectors(store, {
+    runSaga,
+    createReducer,
+  });
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
